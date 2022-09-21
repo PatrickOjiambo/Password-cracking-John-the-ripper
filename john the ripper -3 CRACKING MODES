@@ -1,0 +1,43 @@
+A.[John the ripper single cracking mode]
+root@kali:~john===WHATEVER IS INSIDE THE CURLY BRACKETS SHOULD BE TREATED AS EXPLANATIONS.
+{In this mode John the ripper makes use of the information available to it in the form of a username and other information. This can be used to crack the password files with the format of}
+{Here we have a text file named crack.txt containing the username and password, where the password is encrypted in SHA1 encryption so to crack this password we will use:}
+{ john [mode/option] [password file]}
+john --single --format=raw-sha1 crack.txt
+
+B.John the Ripper Wordlist Crack Mode]
+
+{In this mode John the ripper uses a wordlist that can also be called a Dictionary and it compares the hashes of the words present in the Dictionary with the password hash. We can use any desired wordlist. John also comes in build with a password.lst which contains most of the common passwords. 
+Let’s see how John the Ripper cracks passwords in Wordlist Crack Mode:
+Here we have a text file named crack.txt containing the username and password, where the password is encrypted in SHA1 encryption so to crack this password we will use:}
+[Syntax: john [wordlist] [options] [password file]
+john --wordlist=/usr/share/john/password.lst --format=raw-sha1 crack.txt
+
+C.[Cracking the User Credentials]
+{I am going to demonstrate two ways in which I will crack the user credentials of a Linux user.
+
+Before that we will have to understand, what is a shadow file?
+
+In the Linux operating system, a shadow password file is a system file in which encrypted user password is stored so that they are not available to the people who try to break into the system. It is located at /etc/shadow.
+
+First Method
+Now, for the first method, we will crack the credentials of a particular user “Pash”.
+
+Now to do this First we will open the shadow file as I will show below.}
+root@kali:~# cat /etc /shadow
+{And we will find the credentials of the user Pash and copy it from here and paste it into a text file.}
+{Here we have the file named crack.txt.}
+john crack.txt
+
+c.1[Second Method]
+{Now, for the second method, we will collectively crack the credentials for all the users.
+
+To do this we will have to use John the ripper utility called “unshadow”.}
+
+unshadow /etc/passwd /etc/shadow > crack.txt
+
+
+{Here the unshadow command is combining the /etc/passwd and /etc/shadow files so that John can use them to crack them. We are using both files so that John can use the information provided to efficiently crack the credentials of all users.}
+{Now we will use john to crack the user credentials of all the users collectively.}
+
+john --wordlist=/usr/share/john/password.lst crack.txt
